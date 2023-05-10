@@ -1,20 +1,4 @@
-import ClientModel from "../schemas/client.schema";
-
-export const getClients = async function () {
-  try {
-    return await ClientModel.find();
-  } catch (e) {
-    throw Error("Error ferching categories");
-  }
-};
-
-export const getClient = async function (id) {
-  try {
-    return await ClientModel.findById(id);
-  } catch (e) {
-    throw Error("There is no client with this Id");
-  }
-};
+import ClientModel from "../schemas/client.schema.js";
 
 export const createClient = async function (name) {
   try {
@@ -25,19 +9,27 @@ export const createClient = async function (name) {
   }
 };
 
-export const updateClient = async function (id, name) {
+export const getClients = async function () {
+  try {
+    return await ClientModel.find().sort("name");
+  } catch (e) {
+    throw Error("Error fetching clients");
+  }
+};
+
+export const updateClient = async (id, name) => {
   try {
     const client = await ClientModel.findById(id);
     if (!client) {
       throw Error("There is no client with that Id");
     }
-    return await ClientMode.findByIdAndUpdate(id, { name });
+    return await ClientModel.findByIdAndUpdate(id, { name });
   } catch (e) {
     throw Error(e);
   }
 };
 
-export const deleteClient = async function (id) {
+export const deleteClient = async (id) => {
   try {
     const client = await ClientModel.findById(id);
     if (!client) {
@@ -45,6 +37,6 @@ export const deleteClient = async function (id) {
     }
     return await ClientModel.findByIdAndDelete(id);
   } catch (e) {
-    throw Error(e);
+    throw Error("Error deleting client");
   }
 };

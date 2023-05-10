@@ -1,4 +1,4 @@
-import * as ClientService from "../services/client.service";
+import * as ClientService from "../services/client.service.js";
 
 export const createClient = async (req, res) => {
   const { name } = req.body;

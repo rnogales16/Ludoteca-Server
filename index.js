@@ -5,6 +5,7 @@ import { config } from "dotenv";
 import categoryRouter from "./src/routes/category.routes.js";
 import authorRouter from "./src/routes/author.routes.js";
 import gameRouter from "./src/routes/game.routes.js";
+import clientRouter from "./src/routes/client.routes.js";
 
 config();
 connectDB(process.env.MONGODB_URL);
@@ -18,6 +19,7 @@ app.use(
 
 app.use(express.json());
 app.use("/category", categoryRouter);
+app.use("/client", clientRouter);
 app.use("/author", authorRouter);
 app.use("/game", gameRouter);
 
