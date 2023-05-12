@@ -6,6 +6,7 @@ const clientSchema = new Schema({
   name: {
     type: String,
     require: true,
+    unique: true,
   },
 });
 clientSchema.plugin(normalize);

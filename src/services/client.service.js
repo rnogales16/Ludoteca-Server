@@ -5,7 +5,7 @@ export const createClient = async function (name) {
     const client = new ClientModel({ name });
     return await client.save();
   } catch (e) {
-    throw Error("Error creating client");
+    throw Error(e);
   }
 };
 
@@ -37,6 +37,6 @@ export const deleteClient = async (id) => {
     }
     return await ClientModel.findByIdAndDelete(id);
   } catch (e) {
-    throw Error("Error deleting client");
+    throw Error(e);
   }
 };

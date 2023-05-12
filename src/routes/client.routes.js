@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import validateFields from "../middlewares/validateFields.js";
+import checkDuplicateNames from "../middlewares/checkDuplicateNames.js";
 import {
   createClient,
   getClients,
@@ -11,7 +12,7 @@ import {
 const clientRouter = Router();
 clientRouter.put(
   "/",
-  [check("name").not().isEmpty(), validateFields],
+  [check("name").not().isEmpty(), validateFields, checkDuplicateNames],
   createClient
 );
 clientRouter.get("/", getClients);
