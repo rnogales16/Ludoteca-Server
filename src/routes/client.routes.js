@@ -15,12 +15,12 @@ clientRouter.put(
   [check("name").not().isEmpty(), validateFields, checkDuplicateNames],
   createClient
 );
-clientRouter.get("/", getClients);
 clientRouter.put(
   "/:id",
-  [check("name").not().isEmpty(), validateFields],
+  [check("name").not().isEmpty(), validateFields, checkDuplicateNames],
   updateClient
 );
+clientRouter.get("/", getClients);
 clientRouter.delete("/:id", deleteClient);
 
 export default clientRouter;

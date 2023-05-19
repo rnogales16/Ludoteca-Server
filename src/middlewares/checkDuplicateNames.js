@@ -9,11 +9,10 @@ const checkDuplicateName = async (req, res, next) => {
     if (existingClient) {
       return res
         .status(400)
-        .json({ error: "Ya hay un usuario con ese nombre" });
+        .json({ error: "Ya hay un usuario con el nombre " + name });
     }
     next();
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Error de servidor" });
   }
 };
