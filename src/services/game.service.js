@@ -8,6 +8,9 @@ export const getGames = async (title, category) => {
     const find = category
       ? { $and: [{ title: regexTitle }, { category: category }] }
       : { title: regexTitle };
+    console.log(find);
+    console.log(regexTitle);
+    console.log(category);
     return await GameModel.find(find)
       .sort("id")
       .populate("category")
@@ -28,11 +31,13 @@ export const getGame = async (field) => {
 export const createGame = async (data) => {
   try {
     const category = await getCategory(data.category.id);
+    console.log("Category:", data.category.id);
     if (!category) {
       throw Error("There is no category with that Id");
     }
 
     const author = await getAuthor(data.author.id);
+    console.log("Author:", data.author.id);
     if (!author) {
       throw Error("There is no author with that Id");
     }
@@ -42,6 +47,7 @@ export const createGame = async (data) => {
       category: data.category.id,
       author: data.author.id,
     });
+    console.log(game);
     return await game.save();
   } catch (e) {
     throw Error(e);
