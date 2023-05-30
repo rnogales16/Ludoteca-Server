@@ -2,11 +2,10 @@ import * as LoanService from "../services/loan.service.js";
 
 export const getLoans = async (req, res) => {
   try {
-    const gameToFind = req.query?.idGame || null;
-    const clientToFind = req.query?.idClient || null;
+    const gameToFind = req.query?.gameId || null;
+    const clientToFind = req.query?.clientId || null;
     const loans = await LoanService.getLoans(gameToFind, clientToFind);
     res.status(200).json(loans);
-    console.log(loans);
   } catch (err) {
     res.status(400).json({
       msg: err.toString("el error esta en controller"),
@@ -18,7 +17,7 @@ export const createLoan = async (req, res) => {
   try {
     const loan = await LoanService.createLoan(req.body);
     res.status(200).json({
-      game,
+      loan,
     });
   } catch (err) {
     res.status(400).json({

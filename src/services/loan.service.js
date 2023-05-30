@@ -4,9 +4,18 @@ import { getClients } from "./client.service.js";
 
 export const getLoans = async (game, client) => {
   try {
-    const find = client
-      ? { $and: [{ game: game }, { client: client }] }
-      : { game: game };
+    const find = {};
+
+    if (client || game) {
+      if (client && game) {
+        find.$and = [{ game: game }, { client: client }];
+      } else if (client) {
+        find.client = client;
+      } else if (game) {
+        find.game = game;
+      }
+    }
+
     return await LoanModel.find(find)
       .sort("id")
       .populate("client")
@@ -19,12 +28,10 @@ export const getLoans = async (game, client) => {
 export const createLoan = async (data) => {
   try {
     const game = await getGames(data.game.id);
-    console.log("Game:", data.game.id);
     if (!game) {
       throw Error("There is no game with that Id");
     }
     const client = await getClients(data.client.id);
-    console.log("Client:", data.client.id);
     if (!client) {
       throw Error("There is no author with Id");
     }
@@ -34,11 +41,9 @@ export const createLoan = async (data) => {
       game: data.game.id,
       client: data.client.id,
     });
-    console.log(game);
-    console.log(loan);
     return await loan.save();
   } catch (e) {
-    throw Error(e);
+    throw Error("error", e);
   }
 };
 
