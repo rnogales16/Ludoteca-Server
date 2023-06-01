@@ -6,6 +6,7 @@ import {
   getLoans,
   updateLoan,
   deleteLoan,
+  getLoansPageable,
 } from "../controllers/loan.controller.js";
 const loanRouter = Router();
 
@@ -35,5 +36,16 @@ loanRouter.put(
 
 loanRouter.delete("/:id", deleteLoan);
 loanRouter.get("/", getLoans);
+
+loanRouter.post(
+  "/",
+  [
+    check("pageable").not().isEmpty(),
+    check("pageable.pageSize").not().isEmpty(),
+    check("pageable.pageNumber").not().isEmpty(),
+    validateFields,
+  ],
+  getLoansPageable
+);
 
 export default loanRouter;

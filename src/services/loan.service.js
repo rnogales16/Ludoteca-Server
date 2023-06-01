@@ -2,17 +2,28 @@ import LoanModel from "../schemas/loan.schema.js";
 import { getGames } from "./game.service.js";
 import { getClients } from "./client.service.js";
 
-export const getLoans = async (game, client) => {
+export const getLoans = async (game, client, date) => {
   try {
     const find = {};
 
-    if (client || game) {
+    if (client || game || date) {
       if (client && game) {
         find.$and = [{ game: game }, { client: client }];
       } else if (client) {
         find.client = client;
       } else if (game) {
         find.game = game;
+      }
+
+      if (date) {
+        find.$or = [
+          { startingDate: date },
+          { endingDate: date },
+          {
+            startingDate: { $lte: date },
+            endingDate: { $gte: date },
+          },
+        ];
       }
     }
 
@@ -22,6 +33,23 @@ export const getLoans = async (game, client) => {
       .populate("game");
   } catch (e) {
     throw Error(e);
+  }
+};
+
+export const getLoansPageable = async (page, limit, sort) => {
+  const sortObj = {
+    [sort?.property || "name"]: sort?.direction === "DESC" ? "DESC" : "ASC",
+  };
+  try {
+    const options = {
+      page: parseInt(page) + 1,
+      limit,
+      sort: sortObj,
+    };
+
+    return await LoanModel.paginate({}, options);
+  } catch {
+    throw Error("Error fetching loans page");
   }
 };
 
