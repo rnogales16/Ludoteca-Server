@@ -5,7 +5,7 @@ const connectDB = async (url) => {
     await mongoose.connect(url);
     console.log("BBDD connected");
   } catch (error) {
-    throw new Error("Error initiating BBDD:" + error);
+    throw new Error("Error initiating BBDD: " + error);
   }
 };
 

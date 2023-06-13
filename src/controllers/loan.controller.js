@@ -4,12 +4,12 @@ export const getLoans = async (req, res) => {
   try {
     const gameToFind = req.query?.gameId || null;
     const clientToFind = req.query?.clientId || null;
-    const dateToFind = req.query?.date || null; // Agrega el parámetro `date`
+    const dateToFind = req.query?.date || null;
     const loans = await LoanService.getLoans(
       gameToFind,
       clientToFind,
       dateToFind
-    ); // Pasa `dateToFind` como argumento
+    );
     res.status(200).json(loans);
   } catch (err) {
     res.status(400).json({
@@ -22,9 +22,19 @@ export const getLoansPageable = async (req, res) => {
   const page = req.body.pageable.pageNumber || 0;
   const limit = req.body.pageable.pageSize || 5;
   const sort = req.body.pageable.sort || null;
+  const gameToFind = req.query?.gameId || null;
+  const clientToFind = req.query?.clientId || null;
+  const dateToFind = req.query?.date || null;
 
   try {
-    const response = await LoanService.getLoansPageable(page, limit, sort);
+    const response = await LoanService.getLoansPageable(
+      page,
+      limit,
+      sort,
+      gameToFind,
+      clientToFind,
+      dateToFind
+    );
     res.status(200).json({
       content: response.docs,
       pageable: {
