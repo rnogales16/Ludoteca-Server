@@ -4,7 +4,7 @@ import { getClients } from "./client.service.js";
 import ClientModel from "../schemas/client.schema.js";
 import GameModel from "../schemas/game.schema.js";
 
-export const getLoans = async (game, client, date) => {
+export const getAllLoans = async (game, client, date) => {
   try {
     const find = {};
 
@@ -38,14 +38,7 @@ export const getLoans = async (game, client, date) => {
   }
 };
 
-export const getLoansPageable = async (
-  page,
-  limit,
-  sort,
-  game,
-  client,
-  date
-) => {
+export const getLoans = async (page, limit, sort, game, client, date) => {
   const sortObj = {
     [sort?.property || "name"]: sort?.direction === "DESC" ? "DESC" : "ASC",
   };

@@ -3,10 +3,10 @@ import { check } from "express-validator";
 import validateFields from "../middlewares/validateFields.js";
 import {
   createLoan,
-  getLoans,
+  getAllLoans,
   updateLoan,
   deleteLoan,
-  getLoansPageable,
+  getLoans,
 } from "../controllers/loan.controller.js";
 const loanRouter = Router();
 
@@ -35,7 +35,7 @@ loanRouter.put(
 );
 
 loanRouter.delete("/:id", deleteLoan);
-loanRouter.get("/", getLoans);
+loanRouter.get("/", getAllLoans);
 
 loanRouter.post(
   "/",
@@ -45,7 +45,7 @@ loanRouter.post(
     check("pageable.pageNumber").not().isEmpty(),
     validateFields,
   ],
-  getLoansPageable
+  getLoans
 );
 
 export default loanRouter;

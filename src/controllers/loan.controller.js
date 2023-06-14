@@ -1,11 +1,11 @@
 import * as LoanService from "../services/loan.service.js";
 
-export const getLoans = async (req, res) => {
+export const getAllLoans = async (req, res) => {
   try {
     const gameToFind = req.query?.gameId || null;
     const clientToFind = req.query?.clientId || null;
     const dateToFind = req.query?.date || null;
-    const loans = await LoanService.getLoans(
+    const loans = await LoanService.getAllLoans(
       gameToFind,
       clientToFind,
       dateToFind
@@ -18,7 +18,7 @@ export const getLoans = async (req, res) => {
   }
 };
 
-export const getLoansPageable = async (req, res) => {
+export const getLoans = async (req, res) => {
   const page = req.body.pageable.pageNumber || 0;
   const limit = req.body.pageable.pageSize || 5;
   const sort = req.body.pageable.sort || null;
@@ -27,7 +27,7 @@ export const getLoansPageable = async (req, res) => {
   const dateToFind = req.query?.date || null;
 
   try {
-    const response = await LoanService.getLoansPageable(
+    const response = await LoanService.getLoans(
       page,
       limit,
       sort,
