@@ -99,12 +99,14 @@ export const createLoan = async (data) => {
     }
 
     const loan = new LoanModel({
-      ...data,
       game: data.game.id,
       client: data.client.id,
+      startingDate: data.startingDate,
+      endingDate: data.endingDate,
     });
     return await loan.save();
   } catch (e) {
+    console.log(e);
     throw Error("error", e);
   }
 };
@@ -127,9 +129,10 @@ export const updateLoan = async (id, data) => {
     }
 
     const loanToUpdate = {
-      ...data,
       game: data.game.id,
       client: data.client.id,
+      startingDate: data.startingDate,
+      endingDate: data.endingDate,
     };
     return await LoanModel.findByIdAndUpdate(id, loanToUpdate, { new: false });
   } catch (e) {
