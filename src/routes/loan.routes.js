@@ -2,11 +2,6 @@ import { Router } from "express";
 import { check } from "express-validator";
 import validateFields from "../middlewares/validateFields.js";
 import {
-  validateMaxTwoLoans,
-  validateGameAlreadyLoaned,
-  validateLoanDuration,
-} from "../middlewares/loanValidations.js";
-import {
   createLoan,
   getAllLoans,
   updateLoan,
@@ -23,9 +18,6 @@ loanRouter.put(
     check("startingDate").not().isEmpty(),
     check("endingDate").not().isEmpty(),
     validateFields,
-    validateMaxTwoLoans,
-    validateGameAlreadyLoaned,
-    validateLoanDuration,
   ],
   updateLoan
 );
@@ -38,9 +30,6 @@ loanRouter.put(
     check("startingDate").not().isEmpty(),
     check("endingDate").not().isEmpty(),
     validateFields,
-    validateLoanDuration,
-    validateMaxTwoLoans,
-    validateGameAlreadyLoaned,
   ],
   createLoan
 );

@@ -98,6 +98,36 @@ export const createLoan = async (data) => {
       throw Error("There is no author with Id");
     }
 
+    const maxTwoLoans = await LoanModel.find({
+      client: data.client.id,
+      endingDate: { $gt: data.startingDate },
+      startingDate: { $lte: data.startingDate },
+    });
+
+    if (maxTwoLoans.length >= 2) {
+      throw Error(
+        "The client can't have more than two games assigned to the same loan dates"
+      );
+    }
+
+    const gameLoanedOnes = await LoanModel.find({
+      game: data.game.id,
+      endingDate: { $gt: data.startingDate },
+      startingDate: { $lte: data.startingDate },
+    });
+
+    if (gameLoanedOnes.length >= 1) {
+      throw Error("This game has been already loaned");
+    }
+
+    const difOnDate = new Date(data.endingDate) - new Date(data.startingDate);
+    const dif14Days = difOnDate / (1000 * 60 * 60 * 24);
+    if (dif14Days > 14 || dif14Days < 0) {
+      throw Error(
+        "The return date cannot be more than 14 days after the loan date or less than 0"
+      );
+    }
+
     const loan = new LoanModel({
       game: data.game.id,
       client: data.client.id,
@@ -105,9 +135,8 @@ export const createLoan = async (data) => {
       endingDate: data.endingDate,
     });
     return await loan.save();
-  } catch (e) {
-    console.log(e);
-    throw Error("error", e);
+  } catch (error) {
+    throw Error(error);
   }
 };
 
@@ -126,6 +155,36 @@ export const updateLoan = async (id, data) => {
     const client = await getClients(data.client.id);
     if (!client) {
       throw Error("There is no client with that Id");
+    }
+
+    const maxTwoLoans = await LoanModel.find({
+      client: data.client.id,
+      endingDate: { $gt: data.startingDate },
+      startingDate: { $lte: data.startingDate },
+    });
+
+    if (maxTwoLoans.length >= 2) {
+      throw Error(
+        "The client can't have more than two games assigned to the same loan dates"
+      );
+    }
+
+    const gameLoanedOnes = await LoanModel.find({
+      game: data.game.id,
+      endingDate: { $gt: data.startingDate },
+      startingDate: { $lte: data.startingDate },
+    });
+
+    if (gameLoanedOnes.length >= 1) {
+      throw Error("This game has been already loaned");
+    }
+
+    const difOnDate = new Date(data.endingDate) - new Date(data.startingDate);
+    const dif14Days = difOnDate / (1000 * 60 * 60 * 24);
+    if (dif14Days > 14 || dif14Days < 0) {
+      throw Error(
+        "The return date cannot be more than 14 days after the loan date or less than 0"
+      );
     }
 
     const loanToUpdate = {

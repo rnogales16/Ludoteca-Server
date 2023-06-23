@@ -58,7 +58,7 @@ export const createLoan = async (req, res) => {
     });
   } catch (err) {
     res.status(400).json({
-      msg: err,
+      msg: err.toString(),
     });
   }
 };
