@@ -103,10 +103,9 @@ export const createLoan = async (data) => {
       endingDate: { $gt: data.startingDate },
       startingDate: { $lte: data.startingDate },
     });
-
     if (maxTwoLoans.length >= 2) {
       throw Error(
-        "The client can't have more than two games assigned to the same loan dates"
+        "El cliente no puede tener mas de dos préstamos asignados en las mismas fechas."
       );
     }
 
@@ -115,16 +114,15 @@ export const createLoan = async (data) => {
       endingDate: { $gt: data.startingDate },
       startingDate: { $lte: data.startingDate },
     });
-
     if (gameLoanedOnes.length >= 1) {
-      throw Error("This game has been already loaned");
+      throw Error("Este juego ya esta en otro préstamo para estas fechas.");
     }
 
     const difOnDate = new Date(data.endingDate) - new Date(data.startingDate);
     const dif14Days = difOnDate / (1000 * 60 * 60 * 24);
     if (dif14Days > 14 || dif14Days < 0) {
       throw Error(
-        "The return date cannot be more than 14 days after the loan date or less than 0"
+        "La fecha de devolución del préstamo no puede ser menor a 0 o mayor a 14 días de la fecha de inicio."
       );
     }
 
@@ -162,10 +160,9 @@ export const updateLoan = async (id, data) => {
       endingDate: { $gt: data.startingDate },
       startingDate: { $lte: data.startingDate },
     });
-
     if (maxTwoLoans.length >= 2) {
       throw Error(
-        "The client can't have more than two games assigned to the same loan dates"
+        "El cliente no puede tener mas de dos préstamos asignados en las mismas fechas."
       );
     }
 
@@ -174,16 +171,15 @@ export const updateLoan = async (id, data) => {
       endingDate: { $gt: data.startingDate },
       startingDate: { $lte: data.startingDate },
     });
-
     if (gameLoanedOnes.length >= 1) {
-      throw Error("This game has been already loaned");
+      throw Error("Este juego ya esta en otro préstamo para estas fechas.");
     }
 
     const difOnDate = new Date(data.endingDate) - new Date(data.startingDate);
     const dif14Days = difOnDate / (1000 * 60 * 60 * 24);
     if (dif14Days > 14 || dif14Days < 0) {
       throw Error(
-        "The return date cannot be more than 14 days after the loan date or less than 0"
+        "La fecha de devolución del préstamo no puede ser menor a 0 o mayor a 14 días de la fecha de inicio."
       );
     }
 

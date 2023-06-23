@@ -57,8 +57,9 @@ export const createLoan = async (req, res) => {
       loan,
     });
   } catch (err) {
+    const errorMsg = err.toString().replace("Error: Error: ", "");
     res.status(400).json({
-      msg: err.toString(),
+      msg: errorMsg,
     });
   }
 };
@@ -69,8 +70,9 @@ export const updateLoan = async (req, res) => {
     await LoanService.updateLoan(loanId, req.body);
     res.status(200).json(1);
   } catch (err) {
+    const errorMsg = err.toString().replace("Error: Error: ", "");
     res.status(400).json({
-      msg: err.toString(),
+      msg: errorMsg,
     });
   }
 };
